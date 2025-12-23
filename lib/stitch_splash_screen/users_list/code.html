@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Users List</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#245feb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem", 
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen font-display text-slate-900 dark:text-white selection:bg-primary/20">
+<div class="relative flex flex-col w-full max-w-md mx-auto min-h-screen bg-background-light dark:bg-background-dark pb-6">
+<!-- Header Section (Sticky) -->
+<header class="sticky top-0 z-20 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md pt-2 pb-2">
+<!-- Top Bar -->
+<div class="flex items-center justify-between px-5 py-3">
+<h2 class="text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white">Users</h2>
+<button class="flex items-center gap-1.5 bg-primary/10 hover:bg-primary/20 active:bg-primary/30 text-primary px-3 py-1.5 rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined text-[20px] font-medium">add</span>
+<span class="text-sm font-semibold pr-1">Add User</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="px-5 pb-2 mt-1">
+<div class="relative flex items-center w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-[22px]">search</span>
+</div>
+<input class="block w-full pl-11 pr-12 py-3 rounded-xl border-none bg-white dark:bg-gray-800 shadow-sm text-base placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 text-slate-900 dark:text-white transition-shadow" placeholder="Search Name, Mobile, UID" type="text"/>
+<div class="absolute inset-y-0 right-0 pr-2 flex items-center">
+<button class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[22px]">tune</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Users List -->
+<main class="flex flex-col px-5 gap-3 mt-2">
+<!-- User Card 1: Active -->
+<div class="group bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-gray-700/50 active:scale-[0.99] active:shadow-none transition-all duration-200 cursor-pointer">
+<div class="flex items-start justify-between mb-3">
+<div class="flex items-center gap-3.5">
+<div class="h-12 w-12 rounded-full bg-cover bg-center bg-no-repeat ring-2 ring-white dark:ring-gray-700 shadow-sm" data-alt="Initials JD avatar on blue background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCnf2falVTiKPPIpbCcL-971z07eBeKI8WxjGkvy4GusAXunqTvu1nNDS3Qom2NVLwCdutAtjyiOpkf_cq2DNlv38WMRIGuThiDC9WeeekgQjOVpt2TajYNfBM5VmXEBtdclKe0GjA9869_Q4vzeQc_8HTY6LGQwq2zFN5bDvZ9iogMX8g1CddAXs4gGDNchsRGI8PY8YTTtLe2M3xSoT0SAmlqWpNG1vS8ckTbLKH_mSnIgL0jZTmZwdUjGaaNiCvGNYk5HdmsQjP7");'></div>
+<div>
+<h3 class="text-base font-bold text-slate-900 dark:text-white leading-tight">John Doe</h3>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">UID:</span>
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">#CUST-8291</span>
+</div>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-100 dark:bg-green-900/20 dark:text-green-400 dark:border-green-900/30">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600 dark:bg-green-400 mr-1.5"></span>
+                        Active
+                    </span>
+</div>
+<div class="flex flex-col gap-2 pt-3 border-t border-slate-50 dark:border-gray-700/50">
+<div class="flex items-center gap-2.5 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px] text-slate-400">call</span>
+<span class="text-sm font-medium">+1 555-0192</span>
+</div>
+<div class="flex items-start gap-2.5 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px] text-slate-400 mt-0.5">location_on</span>
+<span class="text-sm leading-snug">123 Main St, Apt 4B, Springfield</span>
+</div>
+</div>
+</div>
+<!-- User Card 2: Active -->
+<div class="group bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-gray-700/50 active:scale-[0.99] active:shadow-none transition-all duration-200 cursor-pointer">
+<div class="flex items-start justify-between mb-3">
+<div class="flex items-center gap-3.5">
+<div class="h-12 w-12 rounded-full bg-cover bg-center bg-no-repeat ring-2 ring-white dark:ring-gray-700 shadow-sm" data-alt="Initials AS avatar on orange background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB8JAw3TLxF6PVoc6GskpFInCRgTpU1y1bNi1XbrW4ePKAZIJtcrnNjbAbQynNx2uno9j1L2sAGOA2CbPLGbq3CRW8Jt0uhSkI_MIU8cCkHN-iK4zBoo1_LZtIpnEmznN3JUGIgJFQmKgmDAGvXY3OoD79OvFkHAMvHBuYT5byszCxt6vGU5PcIVTxkzQHLtToM4I46Ei59pczTtUYYj5gWAINCcj3lndYAxUC_7yxRxJfVl-R-3cQtHswoccgJNNIIGpqtU1k0sKc7");'></div>
+<div>
+<h3 class="text-base font-bold text-slate-900 dark:text-white leading-tight">Alice Smith</h3>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">UID:</span>
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">#CUST-9123</span>
+</div>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-100 dark:bg-green-900/20 dark:text-green-400 dark:border-green-900/30">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600 dark:bg-green-400 mr-1.5"></span>
+                        Active
+                    </span>
+</div>
+<div class="flex flex-col gap-2 pt-3 border-t border-slate-50 dark:border-gray-700/50">
+<div class="flex items-center gap-2.5 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px] text-slate-400">call</span>
+<span class="text-sm font-medium">+1 555-0198</span>
+</div>
+<div class="flex items-start gap-2.5 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px] text-slate-400 mt-0.5">location_on</span>
+<span class="text-sm leading-snug">456 Elm St, Shelbyville</span>
+</div>
+</div>
+</div>
+<!-- User Card 3: Inactive -->
+<div class="group bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-gray-700/50 active:scale-[0.99] active:shadow-none transition-all duration-200 cursor-pointer relative overflow-hidden">
+<!-- Status Stripe -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-red-500"></div>
+<div class="flex items-start justify-between mb-3 pl-2">
+<div class="flex items-center gap-3.5">
+<div class="h-12 w-12 rounded-full bg-cover bg-center bg-no-repeat grayscale ring-2 ring-white dark:ring-gray-700 shadow-sm" data-alt="Initials BJ avatar on green background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJW1pyuU2LazXtjpT2IwKpd6k_m1of0pfqv2gjk1ji0gMUdOEXIuA_Wus1KFaxqZbByyPhbtACDHyBoS5HU3urSuwUoAMFadHPobOh0xAH_LifHSWUWHViaI-8Lm45ZJiAx5-H0d6Rec4yu9FjxvfFnnCw1ledIQv9tG0HNsgBpER7FezvAUIwupvAPCCYn3wtXHe7UWrkxyGJonBAzFSYhpVDq7aPrmzj1GNveM08g8HWXOiqH9hg7TuHaKN8YFWFMmukOzBDtQKK");'></div>
+<div>
+<h3 class="text-base font-bold text-slate-900 dark:text-white leading-tight">Bob Johnson</h3>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">UID:</span>
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">#CUST-7721</span>
+</div>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-900/30">
+                        Inactive
+                    </span>
+</div>
+<div class="flex flex-col gap-2 pt-3 border-t border-slate-50 dark:border-gray-700/50 pl-2">
+<div class="flex items-center gap-2.5 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px] text-slate-400">call</span>
+<span class="text-sm font-medium">+1 555-0222</span>
+</div>
+<div class="flex items-start gap-2.5 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px] text-slate-400 mt-0.5">location_on</span>
+<span class="text-sm leading-snug">789 Oak Ave, Capital City</span>
+</div>
+</div>
+</div>
+<!-- User Card 4: Active -->
+<div class="group bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-gray-700/50 active:scale-[0.99] active:shadow-none transition-all duration-200 cursor-pointer">
+<div class="flex items-start justify-between mb-3">
+<div class="flex items-center gap-3.5">
+<div class="h-12 w-12 rounded-full bg-cover bg-center bg-no-repeat ring-2 ring-white dark:ring-gray-700 shadow-sm" data-alt="Initials EM avatar on purple background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcLy_v6un3KNOIpRLEV1VtNRqE2xZIliVaanNq1NwuX5efXryq4HbAANi1ozbMx1bCvrCNawjpxSnkoTrGSSKKvMxlRQ-XsZn8nyTTPxTHQ7upzQXsp8LDmQJMQW5_-mQaZLXaTqlouLdKMzg4sfvmhkuvhNcEAx1yXC3zQ3O1uspbLtn6Edn6WaQ8n7HTD8w3kteaPPGUbN3sUILPxgdBLLy5M1kufSQN657N13uCJiMPVAIDrU11HWduUNG2UpyD9hMHHelmSnQq");'></div>
+<div>
+<h3 class="text-base font-bold text-slate-900 dark:text-white leading-tight">Elena Martinez</h3>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">UID:</span>
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">#CUST-6549</span>
+</div>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-100 dark:bg-green-900/20 dark:text-green-400 dark:border-green-900/30">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600 dark:bg-green-400 mr-1.5"></span>
+                        Active
+                    </span>
+</div>
+<div class="flex flex-col gap-2 pt-3 border-t border-slate-50 dark:border-gray-700/50">
+<div class="flex items-center gap-2.5 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px] text-slate-400">call</span>
+<span class="text-sm font-medium">+1 555-0841</span>
+</div>
+<div class="flex items-start gap-2.5 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px] text-slate-400 mt-0.5">location_on</span>
+<span class="text-sm leading-snug">901 Maple Dr, Gotham City</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom padding for scroll -->
+<div class="h-6"></div>
+</div>
+</body></html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Bill</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#245feb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e232e",
+                        "input-border-light": "#dbdee6",
+                        "input-border-dark": "#343a46",
+                        "text-primary-light": "#111318",
+                        "text-primary-dark": "#f3f4f6",
+                        "text-secondary-light": "#616d89",
+                        "text-secondary-dark": "#9ca3af",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for cleaner mobile look if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-primary-light dark:text-text-primary-dark antialiased selection:bg-primary/30">
+<div class="relative flex h-full min-h-screen w-full flex-col max-w-md mx-auto bg-background-light dark:bg-background-dark overflow-x-hidden pb-24">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-50 flex items-center justify-between bg-surface-light dark:bg-surface-dark px-4 py-3 shadow-sm transition-colors duration-300">
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-text-primary-light dark:text-text-primary-dark">
+<span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-primary-light dark:text-text-primary-dark flex-1 text-center pr-10">Add Bill</h2>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-4 py-6 space-y-6">
+<!-- Customer Summary Card -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-transparent dark:border-gray-800 transition-colors duration-300">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-14 w-14 shrink-0 shadow-inner" data-alt="Portrait of the customer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmqMqEs2B-hrMlUQF5-4o_-MsuoDHkyU4neGugOk-AspoX2Lr5J--x8Y1yffrCimDDyaG3jZgtRd8kjNDp8g_0ATYds-k34D47RH9GTYBcxH9T-e5U8w0Zs-TMGvslZ_Z5knzA1lYTIFJweiVyK1EU0WIfMU9r6g95B879wOxE4rrJ7AnF52kB5irqe99Q0tbxSlC2h2twcWnkuePkhHz2hr7awlzN46Cuwy37NhmxxPLKxSE8o3LQYAri-Q_w_UBfgCq9FFeWVi7d");'>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-base font-semibold leading-normal text-text-primary-light dark:text-text-primary-dark">Robert Fox</p>
+<p class="text-sm font-medium leading-normal text-text-secondary-light dark:text-text-secondary-dark">Customer ID: #88392</p>
+</div>
+<div class="ml-auto">
+<span class="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary dark:text-blue-400">
+                            Active
+                        </span>
+</div>
+</div>
+</div>
+<!-- Form Container -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-transparent dark:border-gray-800 p-5 space-y-6 transition-colors duration-300">
+<!-- Billing Period -->
+<div class="flex flex-col gap-2">
+<h3 class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">Billing Period</h3>
+<div class="flex gap-4">
+<div class="relative w-full">
+<label class="sr-only" for="year">Year</label>
+<select class="w-full appearance-none rounded-lg border border-input-border-light dark:border-input-border-dark bg-background-light dark:bg-background-dark py-3 px-4 text-text-primary-light dark:text-text-primary-dark focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="year">
+<option>2023</option>
+<option selected="">2024</option>
+<option>2025</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary-light dark:text-text-secondary-dark">
+<span class="material-symbols-outlined">keyboard_arrow_down</span>
+</div>
+</div>
+<div class="relative w-full">
+<label class="sr-only" for="month">Month</label>
+<select class="w-full appearance-none rounded-lg border border-input-border-light dark:border-input-border-dark bg-background-light dark:bg-background-dark py-3 px-4 text-text-primary-light dark:text-text-primary-dark focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="month">
+<option>January</option>
+<option>February</option>
+<option>March</option>
+<option selected="">April</option>
+<option>May</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary-light dark:text-text-secondary-dark">
+<span class="material-symbols-outlined">keyboard_arrow_down</span>
+</div>
+</div>
+</div>
+<!-- Duplicate Warning (Mock Logic) -->
+<div class="flex items-start gap-2 mt-1 text-amber-600 dark:text-amber-500 bg-amber-50 dark:bg-amber-900/20 p-2 rounded-lg text-xs hidden">
+<span class="material-symbols-outlined text-[16px] shrink-0 mt-0.5">warning</span>
+<p>A bill for April 2024 already exists. Saving will overwrite the existing record.</p>
+</div>
+</div>
+<!-- Bill Amount -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark" for="amount">Bill Amount</label>
+<div class="relative">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+<span class="text-text-secondary-light dark:text-text-secondary-dark font-medium">$</span>
+</div>
+<input class="w-full rounded-lg border border-input-border-light dark:border-input-border-dark bg-background-light dark:bg-background-dark py-3 pl-8 pr-4 text-lg font-medium text-text-primary-light dark:text-text-primary-dark placeholder:text-text-secondary-light/50 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="amount" placeholder="0.00" type="number"/>
+</div>
+</div>
+<!-- Status -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">Status</label>
+<div class="flex p-1 bg-background-light dark:bg-background-dark rounded-xl border border-input-border-light dark:border-input-border-dark">
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="status" type="radio" value="pending"/>
+<div class="flex items-center justify-center rounded-lg py-2.5 text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark transition-all peer-checked:bg-white dark:peer-checked:bg-gray-700 peer-checked:text-text-primary-light dark:peer-checked:text-white peer-checked:shadow-sm">
+                                Pending
+                            </div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input checked="" class="peer sr-only" name="status" type="radio" value="paid"/>
+<div class="flex items-center justify-center rounded-lg py-2.5 text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark transition-all peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-md">
+                                Paid
+                            </div>
+</label>
+</div>
+</div>
+<!-- Paid Date (Conditional) -->
+<div class="flex flex-col gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+<label class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark" for="paid_date">Paid Date</label>
+<div class="relative">
+<input class="w-full rounded-lg border border-input-border-light dark:border-input-border-dark bg-background-light dark:bg-background-dark py-3 px-4 text-text-primary-light dark:text-text-primary-dark placeholder:text-text-secondary-light focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors appearance-none min-h-[48px]" id="paid_date" type="date" value="2024-04-15"/>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-secondary-light dark:text-text-secondary-dark">
+<span class="material-symbols-outlined" style="font-size: 20px;">calendar_today</span>
+</div>
+</div>
+</div>
+<!-- Notes -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark" for="notes">Notes <span class="text-text-secondary-light font-normal text-xs ml-1">(Optional)</span></label>
+<textarea class="w-full rounded-lg border border-input-border-light dark:border-input-border-dark bg-background-light dark:bg-background-dark py-3 px-4 text-text-primary-light dark:text-text-primary-dark placeholder:text-text-secondary-light/50 focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none transition-colors" id="notes" placeholder="Add internal notes..." rows="3"></textarea>
+</div>
+</div>
+</main>
+<!-- Footer Actions -->
+<footer class="fixed bottom-0 left-0 right-0 bg-surface-light dark:bg-surface-dark border-t border-input-border-light dark:border-input-border-dark p-4 px-6 flex flex-col gap-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] max-w-md mx-auto z-40">
+<button class="flex w-full items-center justify-center rounded-xl bg-primary py-3.5 text-base font-semibold text-white shadow-md hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all active:scale-[0.98]">
+                Save Bill
+            </button>
+<button class="flex w-full items-center justify-center rounded-xl bg-transparent py-3.5 text-base font-semibold text-text-secondary-light dark:text-text-secondary-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-all active:scale-[0.98]">
+                Cancel
+            </button>
+</footer>
+</div>
+</body></html>

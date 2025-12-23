@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "315586901200",
+    "firebase_url": "https://wifi-billing-e3248-default-rtdb.firebaseio.com",
+    "project_id": "wifi-billing-e3248",
+    "storage_bucket": "wifi-billing-e3248.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315586901200:android:f1029d4492623b771bdad5",
+        "android_client_info": {
+          "package_name": "com.example.wifi_billing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARlvYoGS-tpw2yoLAlMpovYfGxlzXI64s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315586901200:android:caefe232028f51d21bdad5",
+        "android_client_info": {
+          "package_name": "com.internetbilling"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARlvYoGS-tpw2yoLAlMpovYfGxlzXI64s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

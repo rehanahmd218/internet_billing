@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Customer</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#245feb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2233",
+                        "text-main-light": "#111318",
+                        "text-main-dark": "#e2e8f0",
+                        "text-secondary-light": "#616d89",
+                        "text-secondary-dark": "#94a3b8",
+                        "border-light": "#dbdee6",
+                        "border-dark": "#2d3748",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar hide for cleaner UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-main-light dark:text-text-main-dark transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden font-display pb-24">
+<!-- TopAppBar -->
+<div class="sticky top-0 z-50 flex items-center bg-surface-light dark:bg-surface-dark p-4 shadow-sm border-b border-border-light/50 dark:border-border-dark/50">
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-text-main-light dark:text-text-main-dark">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<h2 class="flex-1 text-center text-lg font-bold leading-tight tracking-[-0.015em] pr-10 text-text-main-light dark:text-text-main-dark">Add Customer</h2>
+</div>
+<div class="flex-1 px-4 py-6">
+<!-- Section Header -->
+<div class="mb-4">
+<h3 class="text-text-main-light dark:text-text-main-dark text-lg font-bold leading-tight tracking-[-0.015em]">Customer Details</h3>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm mt-1">Enter the new customer's information below.</p>
+</div>
+<!-- Form Card -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-border-light/50 dark:border-border-dark overflow-hidden p-2">
+<!-- Full Name Field -->
+<div class="flex w-full flex-col gap-2 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-text-main-light dark:text-text-main-dark text-sm font-medium leading-normal pb-2">Full Name</p>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-main-light dark:text-text-main-dark focus:outline-0 focus:ring-2 focus:ring-primary/20 focus:border-primary border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark px-4 text-base font-normal leading-normal transition-all" placeholder="John Doe" value=""/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary-light dark:text-text-secondary-dark text-xl pointer-events-none">person</span>
+</div>
+</label>
+</div>
+<!-- User ID Field -->
+<div class="flex w-full flex-col gap-2 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<div class="flex justify-between items-center pb-2">
+<p class="text-text-main-light dark:text-text-main-dark text-sm font-medium leading-normal">User ID</p>
+<span class="text-xs text-primary font-medium bg-primary/10 px-2 py-0.5 rounded-full">Unique</span>
+</div>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-main-light dark:text-text-main-dark focus:outline-0 focus:ring-2 focus:ring-primary/20 focus:border-primary border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark px-4 text-base font-normal leading-normal transition-all uppercase" placeholder="CUST-001" value=""/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary-light dark:text-text-secondary-dark text-xl pointer-events-none">fingerprint</span>
+</div>
+</label>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-xs font-normal leading-normal flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                        Unique ID cannot be changed later
+                    </p>
+</div>
+<!-- Mobile Number Field -->
+<div class="flex w-full flex-col gap-2 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-text-main-light dark:text-text-main-dark text-sm font-medium leading-normal pb-2">Mobile Number</p>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-main-light dark:text-text-main-dark focus:outline-0 focus:ring-2 focus:ring-primary/20 focus:border-primary border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark px-4 text-base font-normal leading-normal transition-all" placeholder="(555) 000-0000" type="tel" value=""/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary-light dark:text-text-secondary-dark text-xl pointer-events-none">call</span>
+</div>
+</label>
+</div>
+<!-- Address Field -->
+<div class="flex w-full flex-col gap-2 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-text-main-light dark:text-text-main-dark text-sm font-medium leading-normal pb-2">Address</p>
+<textarea class="form-textarea flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-main-light dark:text-text-main-dark focus:outline-0 focus:ring-2 focus:ring-primary/20 focus:border-primary border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark p-4 text-base font-normal leading-normal transition-all" placeholder="Street, Apt, City, Zip Code" rows="3"></textarea>
+</label>
+</div>
+</div>
+</div>
+<!-- Action Bar (Footer) -->
+<div class="fixed bottom-0 left-0 right-0 bg-surface-light dark:bg-surface-dark border-t border-border-light/50 dark:border-border-dark/50 p-4 pb-8 shadow-lg z-40">
+<div class="flex flex-col gap-3 max-w-[600px] mx-auto">
+<button class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary hover:bg-blue-600 px-6 py-3.5 text-white font-bold text-base leading-normal tracking-tight shadow-md transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-xl">save</span>
+                    Save Customer
+                </button>
+<button class="flex w-full items-center justify-center gap-2 rounded-lg bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 px-6 py-2.5 text-text-secondary-light dark:text-text-secondary-dark font-medium text-base leading-normal tracking-tight transition-all">
+                    Cancel
+                </button>
+</div>
+</div>
+</div>
+</body></html>

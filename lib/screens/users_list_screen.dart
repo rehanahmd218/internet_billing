@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/user_controller.dart';
 import '../common/widgets/app_colors.dart';
-import '../common/widgets/bottom_nav_bar.dart';
 import '../common/widgets/status_badge.dart';
 import '../common/widgets/loading_indicator.dart';
+import '../common/widgets/filter_bottom_sheet.dart';
 import '../routes/app_routes.dart';
 import '../models/user_model.dart';
 
@@ -27,6 +27,51 @@ class UsersListScreen extends StatelessWidget {
             _buildHeader(context, isDark, userController, isSelectMode),
             // Search Bar
             _buildSearchBar(context, isDark, userController),
+            // Filter Indicator
+            Obx(() {
+              if (userController.hasActiveFilters) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: AppColors.primary.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.filter_list,
+                        size: 16,
+                        color: AppColors.primary,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          userController.filterDescription,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => userController.clearFilters(),
+                        child: const Icon(
+                          Icons.close,
+                          size: 16,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            }),
             // Users List
             Expanded(
               child: Obx(() {
@@ -47,7 +92,7 @@ class UsersListScreen extends StatelessWidget {
                         Text(
                           'No users found',
                           style: TextStyle(
-                            color: AppColors.textSecondary,
+                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                             fontSize: 16,
                           ),
                         ),
@@ -57,13 +102,14 @@ class UsersListScreen extends StatelessWidget {
                 }
                 return RefreshIndicator(
                   onRefresh: () => userController.loadUsers(),
-                  child: ListView.builder(
+                  child: Obx(() => ListView.builder(
                     padding: const EdgeInsets.all(16),
                     itemCount: userController.users.length,
                     itemBuilder: (context, index) {
                       final user = userController.users[index];
-                      return _buildUserCard(context, user, isDark);
-                    },
+                        return _buildUserCard(context, user, isDark);
+                      },
+                    ),
                   ),
                 );
               }),
@@ -77,6 +123,7 @@ class UsersListScreen extends StatelessWidget {
       floatingActionButton: isSelectMode
           ? null
           : FloatingActionButton(
+              heroTag: 'users_list_fab',
               onPressed: () => Get.toNamed(AppRoutes.addEditUser),
               backgroundColor: AppColors.primary,
               child: const Icon(Icons.add, color: Colors.white),
@@ -97,32 +144,72 @@ class UsersListScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Text(
+          Text(
             'Users',
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: AppColors.textMain,
+              color: isDark ? AppColors.textMainDark : AppColors.textMain,
             ),
           ),
           const Spacer(),
-          if (!isSelectMode)
+          if (!isSelectMode) ...[
+            // Filter button
+            Obx(() => Stack(
+              children: [
+                IconButton(
+                  onPressed: () => _showFilterBottomSheet(context, controller, isDark),
+                  icon: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: controller.hasActiveFilters
+                          ? AppColors.primary.withOpacity(0.2)
+                          : Colors.grey.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      Icons.filter_list,
+                      color: controller.hasActiveFilters
+                          ? AppColors.primary
+                          : AppColors.textSecondary,
+                      size: 24,
+                    ),
+                  ),
+                ),
+                if (controller.hasActiveFilters)
+                  Positioned(
+                    right: 8,
+                    top: 8,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primary,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+              ],
+            )),
+            const SizedBox(width: 8),
             IconButton(
               onPressed: () => Get.toNamed(AppRoutes.addEditUser),
               icon: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(
-                Icons.add,
-                color: AppColors.primary,
-                size: 24,
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.add,
+                  color: AppColors.primary,
+                  size: 24,
+                ),
               ),
             ),
-            ),
+          ],
         ],
       ),
     );
@@ -251,7 +338,7 @@ class UsersListScreen extends StatelessWidget {
                         'UID: ${user.uid}',
                         style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.textSecondary,
+                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                           fontFamily: 'monospace',
                         ),
                       ),
@@ -289,6 +376,25 @@ class UsersListScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Row(
+                    children: [
+                      Icon(
+                        Icons.speed,
+                        size: 16,
+                        color: AppColors.textSecondary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${user.internetSpeed} Mbps',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
@@ -302,7 +408,7 @@ class UsersListScreen extends StatelessWidget {
                           user.address,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.textSecondary,
+                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -315,6 +421,31 @@ class UsersListScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showFilterBottomSheet(BuildContext context, UserController controller, bool isDark) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => FilterBottomSheet(
+        initialStatus: controller.filterStatus.value,
+        initialYear: controller.filterYear.value,
+        initialStartDate: controller.filterStartDate.value,
+        initialEndDate: controller.filterEndDate.value,
+        onApply: (status, year, startDate, endDate) {
+          controller.applyFilters(
+            status: status,
+            year: year,
+            startDate: startDate,
+            endDate: endDate,
+          );
+        },
+        onClear: () {
+          controller.clearFilters();
+        },
       ),
     );
   }

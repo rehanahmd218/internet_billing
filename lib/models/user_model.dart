@@ -1,10 +1,11 @@
 class UserModel {
-  final int? id;
+  int? id;
   final int no; // Sequential number (auto-generated)
   final String uid; // User-provided unique identifier
   final String name;
   final String mobileNumber;
   final String address;
+  final int internetSpeed; // Internet speed in Mbps
   final DateTime createdDate;
   final bool isActive;
 
@@ -15,6 +16,7 @@ class UserModel {
     required this.name,
     required this.mobileNumber,
     required this.address,
+    this.internetSpeed = 0,
     required this.createdDate,
     this.isActive = true,
   });
@@ -27,6 +29,7 @@ class UserModel {
       'name': name,
       'mobile_number': mobileNumber,
       'address': address,
+      'internet_speed': internetSpeed,
       'created_date': createdDate.toIso8601String(),
       'is_active': isActive ? 1 : 0,
     };
@@ -40,6 +43,7 @@ class UserModel {
       name: map['name'] as String,
       mobileNumber: map['mobile_number'] as String,
       address: map['address'] as String,
+      internetSpeed: (map['internet_speed'] as int?) ?? 0,
       createdDate: DateTime.parse(map['created_date'] as String),
       isActive: (map['is_active'] as int) == 1,
     );
@@ -52,6 +56,7 @@ class UserModel {
     String? name,
     String? mobileNumber,
     String? address,
+    int? internetSpeed,
     DateTime? createdDate,
     bool? isActive,
   }) {
@@ -62,6 +67,7 @@ class UserModel {
       name: name ?? this.name,
       mobileNumber: mobileNumber ?? this.mobileNumber,
       address: address ?? this.address,
+      internetSpeed: internetSpeed ?? this.internetSpeed,
       createdDate: createdDate ?? this.createdDate,
       isActive: isActive ?? this.isActive,
     );

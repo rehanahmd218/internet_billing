@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../database/database_helper.dart';
 import '../common/widgets/custom_snackbar.dart';
+import 'settings_controller.dart';
 
 class BillsDashboardController extends GetxController {
   final DatabaseHelper _db = DatabaseHelper.instance;
@@ -26,7 +27,18 @@ class BillsDashboardController extends GetxController {
       totalEarnings.value = await _db.getTotalEarnings();
       yearEarnings.value = await _db.getYearEarnings(selectedYear.value);
       payingUsers.value = await _db.getPayingUsersCount(year: selectedYear.value);
-      pendingAmount.value = await _db.getPendingAmount(year: selectedYear.value);
+      
+      // Use global filter settings if available
+      if (Get.isRegistered<SettingsController>()) {
+        final settings = Get.find<SettingsController>();
+        pendingAmount.value = await _db.getPendingAmount(
+          year: settings.dashboardFilterYear.value ?? selectedYear.value,
+          startDate: settings.dashboardFilterStartDate.value,
+          endDate: settings.dashboardFilterEndDate.value,
+        );
+      } else {
+        pendingAmount.value = await _db.getPendingAmount(year: selectedYear.value);
+      }
       
       // Load earnings by year
       final yearData = await _db.getEarningsByYear();

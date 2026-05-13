@@ -21,7 +21,7 @@ class BillModel {
     required this.updatedAt,
   });
 
-  bool get isPaid => amount > 0;
+  bool get isPaid => billDate != null;
   String get status => isPaid ? 'Paid' : 'Pending';
 
   Map<String, dynamic> toMap() {

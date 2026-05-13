@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../controllers/bills_dashboard_controller.dart';
 import '../common/widgets/app_colors.dart';
-import '../common/widgets/bottom_nav_bar.dart';
 import '../common/widgets/loading_indicator.dart';
 import '../routes/app_routes.dart';
 
@@ -57,6 +56,7 @@ class BillsDashboardScreen extends StatelessWidget {
       ),
       // bottomNavigationBar: const BottomNavBar(currentIndex: 2),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'bills_dashboard_fab',
         onPressed: () => Get.toNamed(AppRoutes.addEditBill),
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.add, color: Colors.white),
@@ -286,107 +286,113 @@ class BillsDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMonthlyChart(BuildContext context, BillsDashboardController controller, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
-        ),
+Widget _buildMonthlyChart(BuildContext context, BillsDashboardController controller, bool isDark) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: isDark ? AppColors.surfaceDark : Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(
+        color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Monthly Revenue',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: isDark ? Colors.white : AppColors.textMain,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text(
                     'Overview for ${controller.selectedYear.value}',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: AppColors.textSecondary,
                     ),
                   ),
                 ],
               ),
-              IconButton(
-                icon: const Icon(Icons.more_horiz),
-                onPressed: () {},
-                color: AppColors.textSecondary,
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          Obx(() {
-            final monthly = controller.monthlyEarnings;
-            if (monthly.isEmpty) {
-              return const SizedBox(height: 192);
-            }
-            
-            final maxEarnings = monthly.reduce((a, b) => a > b ? a : b);
-            final maxHeight = 192.0;
-            
-            return SizedBox(
-              height: maxHeight,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(12, (index) {
-                  final height = maxEarnings > 0
-                      ? (monthly[index] / maxEarnings * maxHeight)
-                      : 0.0;
-                  final monthAbbr = DateFormat('MMM').format(DateTime(controller.selectedYear.value, index + 1));
-                  
-                  return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            height: height > 0 ? height : 4,
-                            decoration: BoxDecoration(
-                              color: height > 0 ? AppColors.primary : Colors.grey[300],
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(2),
-                              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.more_horiz, size: 20),
+              onPressed: () {},
+              color: AppColors.textSecondary,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Obx(() {
+          final monthly = controller.monthlyEarnings;
+          if (monthly.isEmpty) {
+            return const SizedBox(height: 150);
+          }
+          
+          final maxEarnings = monthly.reduce((a, b) => a > b ? a : b);
+          final barMaxHeight = 120.0; // Reduced to leave room for labels
+          
+          return SizedBox(
+            height: 150, // Total container height
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(12, (index) {
+                final height = maxEarnings > 0
+                    ? (monthly[index] / maxEarnings * barMaxHeight)
+                    : 0.0;
+                final monthAbbr = DateFormat('MMM').format(DateTime(controller.selectedYear.value, index + 1));
+                
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min, // Prevent overflow
+                      children: [
+                        Container(
+                          height: height > 0 ? height : 4,
+                          decoration: BoxDecoration(
+                            color: height > 0 ? AppColors.primary : Colors.grey[300],
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(2),
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            monthAbbr[0],
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textSecondary,
-                            ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          monthAbbr[0],
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textSecondary,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  );
-                }),
-              ),
-            );
-          }),
-        ],
-      ),
-    );
-  }
+                  ),
+                );
+              }),
+            ),
+          );
+        }),
+      ],
+    ),
+  );
+}
 
   Widget _buildEarningsByYear(BuildContext context, BillsDashboardController controller, bool isDark) {
     return Container(

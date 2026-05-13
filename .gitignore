@@ -48,3 +48,7 @@ app.*.map.json
 /build/
 /ios
 /linux
+
+/keystore_pass.txt
+
+/lib/Final_Design

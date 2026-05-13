@@ -10,6 +10,12 @@ class UserController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxString searchQuery = ''.obs;
 
+  // Filter state variables
+  final Rxn<String> filterStatus = Rxn<String>(); // 'pending', 'paid', or null
+  final Rxn<int> filterYear = Rxn<int>();
+  final Rxn<DateTime> filterStartDate = Rxn<DateTime>();
+  final Rxn<DateTime> filterEndDate = Rxn<DateTime>();
+
   @override
   void onInit() {
     super.onInit();
@@ -19,10 +25,32 @@ class UserController extends GetxController {
   Future<void> loadUsers() async {
     isLoading.value = true;
     try {
-      if (searchQuery.value.isEmpty) {
-        users.value = await _db.getAllUsers();
+      // Check if filters are active
+      if (hasActiveFilters && filterStatus.value != null) {
+        // Use filtered query
+        users.value = await _db.getUsersByBillStatus(
+          status: filterStatus.value,
+          year: filterYear.value,
+          startDate: filterStartDate.value,
+          endDate: filterEndDate.value,
+        );
+        
+        // Apply search query if present
+        if (searchQuery.value.isNotEmpty) {
+          users.value = users.where((user) {
+            final query = searchQuery.value.toLowerCase();
+            return user.name.toLowerCase().contains(query) ||
+                   user.uid.toLowerCase().contains(query) ||
+                   user.mobileNumber.contains(query);
+          }).toList();
+        }
       } else {
-        users.value = await _db.searchUsers(searchQuery.value);
+        // Use normal query
+        if (searchQuery.value.isEmpty) {
+          users.value = await _db.getAllUsers();
+        } else {
+          users.value = await _db.searchUsers(searchQuery.value);
+        }
       }
     } catch (e) {
       CustomSnackbar.showError('Failed to load users: $e');
@@ -47,7 +75,8 @@ class UserController extends GetxController {
 
       final userId = await _db.insertUser(user);
       // await loadUsers();
-      // users.insert(0, user);
+      user.id = userId;
+      users.insert(0, user);
       CustomSnackbar.showSuccess('User created successfully');
       return true;
     } catch (e) {
@@ -93,6 +122,71 @@ class UserController extends GetxController {
       // If error, return 1 as default
       return 1;
     }
+  }
+
+  // Filter methods
+
+  /// Apply filters to user list
+  Future<void> applyFilters({
+    String? status,
+    int? year,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    filterStatus.value = status;
+    filterYear.value = year;
+    filterStartDate.value = startDate;
+    filterEndDate.value = endDate;
+    await loadUsers();
+  }
+
+  /// Clear all filters
+  Future<void> clearFilters() async {
+    filterStatus.value = null;
+    filterYear.value = null;
+    filterStartDate.value = null;
+    filterEndDate.value = null;
+    await loadUsers();
+  }
+
+  /// Check if any filters are active
+  bool get hasActiveFilters {
+    return filterStatus.value != null ||
+           filterYear.value != null ||
+           filterStartDate.value != null ||
+           filterEndDate.value != null;
+  }
+
+  /// Get filter description
+  String get filterDescription {
+    List<String> parts = [];
+    
+    if (filterStatus.value != null) {
+      parts.add(filterStatus.value == 'pending' ? 'Pending Bills' : 'Paid Bills');
+    }
+    
+    if (filterYear.value != null) {
+      parts.add('Year: ${filterYear.value}');
+    }
+    
+    if (filterStartDate.value != null || filterEndDate.value != null) {
+      final start = filterStartDate.value;
+      final end = filterEndDate.value;
+      
+      if (start != null && end != null) {
+        parts.add('${_formatDate(start)} - ${_formatDate(end)}');
+      } else if (start != null) {
+        parts.add('From ${_formatDate(start)}');
+      } else if (end != null) {
+        parts.add('Until ${_formatDate(end)}');
+      }
+    }
+    
+    return parts.isEmpty ? 'All Users' : parts.join(', ');
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
   }
 }
 

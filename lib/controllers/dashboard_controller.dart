@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../database/database_helper.dart';
 import '../common/widgets/custom_snackbar.dart';
+import 'settings_controller.dart';
 
 class DashboardController extends GetxController {
   final DatabaseHelper _db = DatabaseHelper.instance;
@@ -24,7 +25,19 @@ class DashboardController extends GetxController {
       totalEarnings.value = await _db.getTotalEarnings();
       currentMonthEarnings.value = await _db.getCurrentMonthEarnings();
       totalUsers.value = await _db.getTotalUsers();
-      pendingBillsCount.value = await _db.getPendingBillsCount();
+      
+      // Use global filter settings if available
+      if (Get.isRegistered<SettingsController>()) {
+        final settings = Get.find<SettingsController>();
+        pendingBillsCount.value = await _db.getPendingBillsCount(
+          year: settings.dashboardFilterYear.value,
+          startDate: settings.dashboardFilterStartDate.value,
+          endDate: settings.dashboardFilterEndDate.value,
+        );
+      } else {
+        pendingBillsCount.value = await _db.getPendingBillsCount();
+      }
+      
       await loadRecentActivity();
     } catch (e) {
       CustomSnackbar.showError('Failed to load dashboard data: $e');

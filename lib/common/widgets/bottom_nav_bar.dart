@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_billing/controllers/navigation_controller.dart';
 import 'app_colors.dart';
 import 'package:internet_billing/screens/dashboard_screen.dart';
 import 'package:internet_billing/screens/users_list_screen.dart';
@@ -116,21 +117,15 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-// GetX Controller for navigation
-class NavigationController extends GetxController {
-  final _currentIndex = 0.obs; // Start at Dashboard (index 0)
-  int get currentIndex => _currentIndex.value;
 
-  void changeIndex(int index) {
-    _currentIndex.value = index;
-  }
-}
 
 // main_screen_getx.dart - GetX version
 class MainScreenGetX extends StatelessWidget {
   MainScreenGetX({super.key});
 
-  final NavigationController navController = Get.put(NavigationController());
+  final NavigationController navController = Get.isRegistered<NavigationController>()
+      ? Get.find<NavigationController>()
+      : Get.put(NavigationController());
 
   final List<Widget> _screens = [
     const DashboardScreen(),

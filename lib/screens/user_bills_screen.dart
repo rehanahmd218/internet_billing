@@ -1,84 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../controllers/bill_controller.dart';
-import '../database/database_helper.dart';
+import '../controllers/user_bills_controller.dart';
 import '../common/widgets/app_colors.dart';
 import '../common/widgets/status_badge.dart';
-import '../common/widgets/custom_snackbar.dart';
 import '../common/widgets/loading_indicator.dart';
 import '../models/bill_model.dart';
 import '../routes/app_routes.dart';
 
-class UserBillsScreen extends StatefulWidget {
+
+
+class UserBillsScreen extends StatelessWidget {
   const UserBillsScreen({super.key});
 
-  @override
-  State<UserBillsScreen> createState() => _UserBillsScreenState();
-}
-
-class _UserBillsScreenState extends State<UserBillsScreen> {
-  final billController = Get.put(BillController());
-  final db = DatabaseHelper.instance;
-
-  String? _userUid;
-  String? _userName;
-  int _selectedYear = DateTime.now().year;
-  List<BillModel> _bills = [];
-  bool _isLoading = false;
-  double _yearTotal = 0.0;
-
-  final List<String> _months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    final args = Get.arguments;
-    if (args != null && args is Map) {
-      _userUid = args['userUid'] as String?;
-      _userName = args['userName'] as String?;
-    }
-    _loadBills();
-  }
-
-  Future<void> _loadBills() async {
-    if (_userUid == null) return;
-
-    setState(() => _isLoading = true);
-
-    try {
-      final bills = await db.getUserBills(_userUid!, _selectedYear);
-      _bills = bills;
-
-      // Calculate year total
-      _yearTotal = bills.fold(0.0, (sum, bill) => sum + bill.amount);
-    } catch (e) {
-      CustomSnackbar.showError('Failed to load bills: $e');
-    } finally {
-      setState(() => _isLoading = false);
-    }
-  }
-
-  BillModel? _getBillForMonth(int month) {
-    try {
-      return _bills.firstWhere((bill) => bill.month == month);
-    } catch (e) {
-      return null;
-    }
-  }
+  UserBillsController get controller => Get.put(UserBillsController());
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +32,10 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
             _buildYearSelector(context, isDark),
             // Bills List
             Expanded(
-              child: _isLoading
+              child: Obx(() => controller.isLoading.value
                   ? const LoadingIndicator(message: 'Loading bills...')
                   : RefreshIndicator(
-                      onRefresh: _loadBills,
+                      onRefresh: controller.loadBills,
                       child: SingleChildScrollView(
                         padding: const EdgeInsets.all(16),
                         child: Column(
@@ -108,9 +43,9 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
                             // Monthly Bills
                             ...List.generate(12, (index) {
                               final month = index + 1;
-                              final bill = _getBillForMonth(month);
+                              final bill = controller.getBillForMonth(month);
                               final isUpcoming = DateTime(
-                                _selectedYear,
+                                controller.selectedYear.value,
                                 month,
                               ).isAfter(DateTime.now());
 
@@ -129,7 +64,7 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
                           ],
                         ),
                       ),
-                    ),
+                    )),
             ),
           ],
         ),
@@ -157,27 +92,27 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
             color: isDark ? Colors.white : AppColors.textMain,
           ),
           Expanded(
-            child: Column(
+            child: Obx(() => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _userName ?? 'User Bills',
+                  controller.userName.value.isEmpty ? 'User Bills' : controller.userName.value,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: isDark ? Colors.white : AppColors.textMain,
                   ),
                 ),
-                if (_userUid != null)
+                if (controller.userUid.value.isNotEmpty)
                   Text(
-                    'UID: $_userUid',
+                    'UID: ${controller.userUid.value}',
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppColors.textSecondary,
+                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                     ),
                   ),
               ],
-            ),
+            )),
           ),
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -193,8 +128,8 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       color: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      child: DropdownButtonFormField<int>(
-        initialValue: _selectedYear,
+      child: Obx(() => DropdownButtonFormField<int>(
+        initialValue: controller.selectedYear.value,
         decoration: InputDecoration(
           filled: true,
           fillColor: isDark ? AppColors.surfaceDark : Colors.white,
@@ -229,13 +164,10 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
         }),
         onChanged: (value) {
           if (value != null) {
-            setState(() {
-              _selectedYear = value;
-            });
-            _loadBills();
+            controller.changeYear(value);
           }
         },
-      ),
+      )),
     );
   }
 
@@ -246,7 +178,7 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
     required bool isUpcoming,
     required bool isDark,
   }) {
-    final monthName = _months[month - 1];
+    final monthName = controller.months[month - 1];
     final isPaid = bill?.isPaid ?? false;
     final amount = bill?.amount ?? 0.0;
 
@@ -266,8 +198,8 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
             : () => Get.toNamed(
                 AppRoutes.addEditBill,
                 arguments: {
-                  'userUid': _userUid,
-                  'year': _selectedYear,
+                  'userUid': controller.userUid.value,
+                  'year': controller.selectedYear.value,
                   'month': month,
                 },
               ),
@@ -336,12 +268,12 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
                                   ? DateFormat(
                                       'MMM dd, yyyy',
                                     ).format(bill!.billDate!)
-                                  : 'Due ${DateFormat('MMM').format(DateTime(_selectedYear, month))} 01'),
+                                  : 'Due ${DateFormat('MMM').format(DateTime(controller.selectedYear.value, month))} 01'),
                         style: TextStyle(
                           fontSize: 14,
                           color: isUpcoming
-                              ? AppColors.textSecondary
-                              : AppColors.textSecondary,
+                              ? (isDark ? AppColors.textSecondaryDark : AppColors.textSecondary)
+                              : (isDark ? AppColors.textSecondaryDark : AppColors.textSecondary),
                         ),
                       ),
                       if (!isUpcoming) ...[
@@ -374,10 +306,11 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
   }
 
   Widget _buildYearSummary(BuildContext context, bool isDark) {
-    final paidBills = _bills.where((bill) => bill.isPaid).toList();
-    final totalPaid = paidBills.fold(0.0, (sum, bill) => sum + bill.amount);
-    final projectedTotal =
-        totalPaid / (paidBills.isNotEmpty ? paidBills.length : 1) * 12;
+    return Obx(() {
+      final paidBills = controller.bills.where((bill) => bill.isPaid).toList();
+      final totalPaid = paidBills.fold(0.0, (sum, bill) => sum + bill.amount);
+      final projectedTotal =
+          totalPaid / (paidBills.isNotEmpty ? paidBills.length : 1) * 12;
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -457,5 +390,6 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
         ],
       ),
     );
+    });
   }
 }

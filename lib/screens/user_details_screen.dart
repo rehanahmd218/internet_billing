@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../controllers/user_controller.dart';
 import '../controllers/bill_controller.dart';
+import '../controllers/navigation_controller.dart';
 import '../database/database_helper.dart';
 import '../common/widgets/app_colors.dart';
 import '../common/widgets/status_badge.dart';
@@ -74,21 +75,44 @@ class UserDetailsScreen extends StatelessWidget {
             onPressed: () => Get.back(),
             color: isDark ? Colors.white : AppColors.textMain,
           ),
-          const Expanded(
+          Expanded(
             child: Text(
               'Customer Details',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textMain,
+                color: isDark ? AppColors.textMainDark : AppColors.textMain,
               ),
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.more_horiz),
-            onPressed: () {},
-            color: isDark ? Colors.white : AppColors.textMain,
+          // Get user from arguments to pass to edit screen
+          FutureBuilder<UserModel?>(
+            future: DatabaseHelper.instance.getUserById(Get.arguments as int),
+            builder: (context, snapshot) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: snapshot.hasData
+                        ? () => Get.toNamed(
+                              AppRoutes.addEditUser,
+                              arguments: snapshot.data,
+                            )
+                        : null,
+                    color: isDark ? Colors.white : AppColors.textMain,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: snapshot.hasData
+                        ? () => _showDeleteConfirmation(context, snapshot.data!)
+                        : null,
+                    color: AppColors.danger,
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -223,7 +247,7 @@ class UserDetailsScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.textSecondary,
+                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -383,7 +407,7 @@ class UserDetailsScreen extends StatelessWidget {
                               'Last Payment Date',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: AppColors.textSecondary,
+                                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -443,7 +467,7 @@ class UserDetailsScreen extends StatelessWidget {
                 label,
                 style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.textSecondary,
+                  color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                 ),
               ),
             ],
@@ -456,6 +480,58 @@ class UserDetailsScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: color,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context, UserModel user) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: isDark ? AppColors.surfaceDark : Colors.white,
+        title: Text(
+          'Delete User',
+          style: TextStyle(
+            color: isDark ? Colors.white : AppColors.textMain,
+          ),
+        ),
+        content: Text(
+          'Are you sure you want to delete ${user.name}? This will also delete all associated bills and cannot be undone.',
+          style: TextStyle(
+            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                color: isDark ? Colors.white70 : AppColors.textSecondary,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              final userController = Get.find<UserController>();
+              final success = await userController.deleteUser(user.id!);
+              if (success) {
+                // Navigate to main screen with users tab selected
+                final navController = Get.isRegistered<NavigationController>() ? Get.find<NavigationController>() : Get.put(NavigationController());
+                navController.changeIndex(1); // Users tab
+                Get.offAllNamed(AppRoutes.main);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.danger,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Delete'),
           ),
         ],
       ),

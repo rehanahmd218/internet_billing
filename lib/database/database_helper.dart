@@ -21,19 +21,33 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 3, // Incremented version to add 'no' field
+      version: 4, // Incremented version to add 'internet_speed' field
       onCreate: _createDB,
       onUpgrade: _onUpgrade,
-      onOpen: (db) async {
-        // Verify tables exist and have correct schema
-        await _verifyTables(db);
-      },
     );
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Drop existing tables and recreate if version changes
     if (oldVersion < newVersion) {
+      // For version 4, we need to add 'internet_speed' field
+      if (oldVersion < 4) {
+        try {
+          final usersColumns = await db.rawQuery('PRAGMA table_info(users)');
+          final hasInternetSpeed = usersColumns.any((col) => col['name'] == 'internet_speed');
+          
+          if (!hasInternetSpeed) {
+            // Add 'internet_speed' column with default value 0
+            await db.execute('ALTER TABLE users ADD COLUMN internet_speed INTEGER NOT NULL DEFAULT 0');
+          }
+        } catch (e) {
+          // If migration fails, recreate tables
+          await db.execute('DROP TABLE IF EXISTS bills');
+          await db.execute('DROP TABLE IF EXISTS users');
+          await _createDB(db, newVersion);
+        }
+      }
+      
       // For version 3, we need to add 'no' field
       if (oldVersion < 3) {
         try {
@@ -79,7 +93,7 @@ class DatabaseHelper {
         // Recreate tables if schema is incorrect
         await db.execute('DROP TABLE IF EXISTS bills');
         await db.execute('DROP TABLE IF EXISTS users');
-        await _createDB(db, 3);
+        await _createDB(db, 4);
       }
     } catch (e) {
       // If tables don't exist, create them
@@ -92,7 +106,7 @@ class DatabaseHelper {
     final db = await database;
     await db.execute('DROP TABLE IF EXISTS bills');
     await db.execute('DROP TABLE IF EXISTS users');
-    await _createDB(db, 3);
+    await _createDB(db, 4);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -105,6 +119,7 @@ class DatabaseHelper {
         name TEXT NOT NULL,
         mobile_number TEXT NOT NULL,
         address TEXT NOT NULL,
+        internet_speed INTEGER NOT NULL DEFAULT 0,
         created_date TEXT NOT NULL,
         is_active INTEGER NOT NULL DEFAULT 1
       )
@@ -136,6 +151,15 @@ class DatabaseHelper {
   Future<int> insertUser(UserModel user) async {
     final db = await database;
     return await db.insert('users', user.toMap());
+  }
+
+  Future<void> insertMultipleUsers(List<UserModel> users) async {
+    final db = await database;
+    await db.transaction((txn) async {
+      for (var user in users) {
+        await txn.insert('users', user.toMap());
+      }
+    });
   }
 
   Future<List<UserModel>> getAllUsers() async {
@@ -194,6 +218,98 @@ class DatabaseHelper {
       (await getUserById(id))?.uid,
     ]);
     return await db.delete('users', where: 'id = ?', whereArgs: [id]);
+  }
+
+  /// Get users filtered by bill status
+  /// [status] - 'pending', 'paid', or null for all
+  /// [year] - filter by year
+  /// [startDate] - filter bills from this date (month-based)
+  /// [endDate] - filter bills to this date (month-based)
+  /// 
+  /// Logic: For a given year and month range (e.g., Jan to Dec 2025):
+  /// - PAID: User has bills for ALL months in range AND all are paid
+  /// - PENDING: User has unpaid bills OR missing bills in the range
+  Future<List<UserModel>> getUsersByBillStatus({
+    String? status, // 'pending', 'paid', or null for all
+    int? year,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    final db = await database;
+    
+    if (status == null) {
+      // Return all users
+      return getAllUsers();
+    }
+
+    // Determine the month range to check
+    int startMonth = 1;
+    int endMonth = 12;
+    int filterYear = year ?? DateTime.now().year;
+
+    if (startDate != null) {
+      startMonth = startDate.month;
+      if (year == null) filterYear = startDate.year;
+    }
+    
+    if (endDate != null) {
+      endMonth = endDate.month;
+    }
+
+    // Calculate expected number of bills
+    int expectedBills = endMonth - startMonth + 1;
+
+    if (status == 'paid') {
+      // Users who have ALL bills PAID in the specified month range
+      // Must have exactly expectedBills bills, all paid
+      final result = await db.rawQuery('''
+        SELECT DISTINCT u.* 
+        FROM users u
+        WHERE (
+          SELECT COUNT(*) 
+          FROM bills b
+          WHERE b.user_uid = u.uid
+            AND b.year = ?
+            AND b.month >= ?
+            AND b.month <= ?
+            AND b.bill_date IS NOT NULL
+            AND b.amount > 0
+        ) = ?
+        ORDER BY u.created_date DESC
+      ''', [filterYear, startMonth, endMonth, expectedBills]);
+      
+      return result.map((map) => UserModel.fromMap(map)).toList();
+    } else if (status == 'pending') {
+      // Users who have:
+      // 1. At least one unpaid bill in range, OR
+      // 2. Fewer bills than expected (missing bills)
+      final result = await db.rawQuery('''
+        SELECT DISTINCT u.* 
+        FROM users u
+        WHERE (
+          SELECT COUNT(*) 
+          FROM bills b
+          WHERE b.user_uid = u.uid
+            AND b.year = ?
+            AND b.month >= ?
+            AND b.month <= ?
+        ) < ?
+        OR EXISTS (
+          SELECT 1 FROM bills b
+          WHERE b.user_uid = u.uid
+            AND b.year = ?
+            AND b.month >= ?
+            AND b.month <= ?
+            AND (b.bill_date IS NULL OR b.amount = 0)
+        )
+        ORDER BY u.created_date DESC
+      ''', [filterYear, startMonth, endMonth, expectedBills, filterYear, startMonth, endMonth]);
+      
+      return result.map((map) => UserModel.fromMap(map)).toList();
+    } else {
+      // Invalid status
+      return [];
+    }
   }
 
   // Bill CRUD operations
@@ -313,27 +429,83 @@ class DatabaseHelper {
     return Sqflite.firstIntValue(result) ?? 0;
   }
 
-  Future<int> getPendingBillsCount() async {
+  Future<int> getPendingBillsCount({
+    int? year,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     final db = await database;
-    final result = await db.rawQuery(
-      'SELECT COUNT(*) as count FROM bills WHERE amount = 0',
-    );
-    return Sqflite.firstIntValue(result) ?? 0;
+    
+    // Determine the month range
+    int startMonth = 1;
+    int endMonth = 12;
+    int filterYear = year ?? DateTime.now().year;
+
+    if (startDate != null) {
+      startMonth = startDate.month;
+      if (year == null) filterYear = startDate.year;
+    }
+    
+    if (endDate != null) {
+      endMonth = endDate.month;
+    }
+
+    // Calculate expected bills: total users × months in range
+    final totalUsers = await getTotalUsers();
+    final monthsInRange = endMonth - startMonth + 1;
+    final expectedBills = totalUsers * monthsInRange;
+
+    // Count paid bills in the range
+    final paidBillsResult = await db.rawQuery('''
+      SELECT COUNT(*) as count 
+      FROM bills 
+      WHERE year = ?
+        AND month >= ?
+        AND month <= ?
+        AND bill_date IS NOT NULL
+        AND amount > 0
+    ''', [filterYear, startMonth, endMonth]);
+    
+    final paidBills = Sqflite.firstIntValue(paidBillsResult) ?? 0;
+
+    // Pending = Expected - Paid (includes both unpaid and missing bills)
+    return expectedBills - paidBills;
   }
 
-  Future<double> getPendingAmount({int? year}) async {
+  Future<double> getPendingAmount({
+    int? year,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     final db = await database;
-    List<Map<String, dynamic>> result;
-    if (year != null) {
-      result = await db.rawQuery(
-        'SELECT SUM(amount) as total FROM bills WHERE year = ? AND amount = 0',
-        [year],
-      );
-    } else {
-      result = await db.rawQuery(
-        'SELECT SUM(amount) as total FROM bills WHERE amount = 0',
-      );
+    
+    // Determine the month range
+    int startMonth = 1;
+    int endMonth = 12;
+    int filterYear = year ?? DateTime.now().year;
+
+    if (startDate != null) {
+      startMonth = startDate.month;
+      if (year == null) filterYear = startDate.year;
     }
+    
+    if (endDate != null) {
+      endMonth = endDate.month;
+    }
+
+    // Sum amounts of unpaid bills (bill_date IS NULL but amount > 0)
+    // Note: Bills with amount = 0 don't contribute to pending amount
+    // Missing bills also have no amount to sum
+    final result = await db.rawQuery('''
+      SELECT SUM(amount) as total 
+      FROM bills 
+      WHERE year = ?
+        AND month >= ?
+        AND month <= ?
+        AND bill_date IS NULL
+        AND amount > 0
+    ''', [filterYear, startMonth, endMonth]);
+    
     return (result.first['total'] as num?)?.toDouble() ?? 0.0;
   }
 
@@ -402,6 +574,24 @@ class DatabaseHelper {
   Future<void> close() async {
     final db = await database;
     await db.close();
+  }
+
+  /// Reinitialize database after restore operations
+  /// This fixes the "database_closed" error after restoring from backup
+  Future<void> reinitializeDatabase() async {
+    try {
+      // Close existing database if open
+      if (_database != null) {
+        await _database!.close();
+        _database = null;
+      }
+      
+      // Reinitialize database
+      _database = await _initDB('internet_billing.db');
+    } catch (e) {
+      print('Error reinitializing database: $e');
+      rethrow;
+    }
   }
 }
 

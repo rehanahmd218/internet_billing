@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_billing/controllers/navigation_controller.dart';
 import 'package:intl/intl.dart';
 import '../controllers/dashboard_controller.dart';
 import '../common/widgets/app_colors.dart';
-import '../common/widgets/bottom_nav_bar.dart';
 import '../common/widgets/status_badge.dart';
 import '../common/widgets/loading_indicator.dart';
-import '../routes/app_routes.dart';
 import '../models/user_model.dart';
 import '../models/bill_model.dart';
 
@@ -359,7 +358,13 @@ class DashboardScreen extends StatelessWidget {
         TextButton(
           onPressed: () {
             // Navigate to bills dashboard or full activity
-            Get.toNamed(AppRoutes.billsDashboard);
+            // Get.toNamed(AppRoutes.billsDashboard);
+            final navController = Get.isRegistered<NavigationController>()
+                ? Get.find<NavigationController>()
+                : Get.put(NavigationController());
+
+            navController.changeIndex(2); // Bills tab
+                
           },
           child: const Text(
             'View All',

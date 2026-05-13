@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Splash Screen - NetManager</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2463eb",
+              "background-light": "#f6f6f8",
+              "background-dark": "#111621",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display antialiased overflow-hidden">
+<!-- Splash Screen Wrapper -->
+<div class="relative flex h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-[#60a5fa] to-primary group/design-root">
+<!-- Decorative Background Element (Subtle Glow) -->
+<div class="absolute top-1/4 left-1/4 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-3xl"></div>
+<div class="absolute bottom-1/4 right-1/4 h-64 w-64 translate-x-1/2 translate-y-1/2 rounded-full bg-blue-900/20 blur-3xl"></div>
+<!-- Main Content Area -->
+<div class="relative z-10 flex flex-col items-center justify-center gap-8 px-4">
+<!-- Logo Lockup -->
+<div class="flex flex-col items-center gap-6">
+<!-- App Icon Container -->
+<div class="relative flex h-28 w-28 items-center justify-center rounded-3xl bg-white shadow-2xl shadow-blue-900/20 ring-4 ring-white/20 backdrop-blur-md">
+<!-- Icon -->
+<span class="material-symbols-outlined text-[64px] text-primary">hub</span>
+</div>
+<!-- Text Branding -->
+<div class="flex max-w-[480px] flex-col items-center gap-1 text-center">
+<h1 class="text-white text-3xl font-extrabold leading-tight tracking-tight drop-shadow-sm">NetManager</h1>
+<p class="text-blue-50 text-sm font-medium leading-normal tracking-wide opacity-90">ISP Management &amp; Billing</p>
+</div>
+</div>
+</div>
+<!-- Footer / Loading State -->
+<div class="absolute bottom-12 left-0 right-0 z-10 flex flex-col items-center justify-end gap-3 px-4">
+<!-- Loading Bar -->
+<div class="h-1.5 w-32 overflow-hidden rounded-full bg-black/10 backdrop-blur-sm">
+<div class="h-full w-2/3 rounded-full bg-white/90"></div>
+</div>
+<!-- Secondary Text -->
+<p class="text-blue-100 text-xs font-medium uppercase tracking-widest opacity-80">Loading...</p>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customer Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "success": "#22c55e",
+                        "danger": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-[#0e121b] dark:text-white font-display">
+<div class="relative flex h-full min-h-screen w-full max-w-md mx-auto flex-col overflow-x-hidden border-x border-gray-100 dark:border-gray-800">
+<!-- Top App Bar -->
+<div class="flex items-center p-4 sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md justify-between">
+<button class="text-[#0e121b] dark:text-white flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</button>
+<h2 class="text-[#0e121b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Customer Details</h2>
+<button class="text-[#0e121b] dark:text-white flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<!-- Profile Header Section -->
+<div class="px-4 pt-4 pb-6">
+<div class="flex flex-col items-center text-center gap-4">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-24 w-24 ring-4 ring-white dark:ring-gray-800 shadow-lg" data-alt="Portrait of John Doe, a smiling customer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAeasDm9F2Lum34thX3Ar5epZtfgZlsjTmTbnaZ7CxrfDykPtNPGrNIqvvLagaDu8YrsU3perESZ_IYTurEt53NgxHmUzvPoY9lXYwXIXX4Fa--EMs2QQgaBLxjPw8Fz6TuVAUvgRyG9ROYglcBR8g0Wn6665XtSK1RjI1Fdlci0lztc5GozUVBFdHMfljJBSKva7WBmCi_F4XSBty82czwQ8LR9EUATgiqsKl76yrVVzn0d-_aDMMjxnLu4jfW2Y33yY7kWtY3Wy2D");'>
+</div>
+<div aria-label="Active status" class="absolute bottom-1 right-1 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full w-5 h-5"></div>
+</div>
+<div class="flex flex-col gap-1 items-center">
+<h1 class="text-[#0e121b] dark:text-white text-2xl font-bold leading-tight tracking-tight">John Doe</h1>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light">
+                        UID: #CUST-0042
+                    </span>
+</div>
+</div>
+<!-- Contact Details Card -->
+<div class="mt-6 bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col gap-4">
+<div class="flex items-start gap-3">
+<div class="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</div>
+<div class="flex flex-col flex-1">
+<p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Mobile Number</p>
+<p class="text-[#0e121b] dark:text-white font-medium">+1 (555) 012-3456</p>
+</div>
+<button class="text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+<div class="h-px bg-gray-100 dark:bg-gray-800 w-full"></div>
+<div class="flex items-start gap-3">
+<div class="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+</div>
+<div class="flex flex-col flex-1">
+<p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Address</p>
+<p class="text-[#0e121b] dark:text-white font-medium">123 Fiber Optic Lane, Springfield</p>
+</div>
+<button class="text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">map</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="px-4 pb-6">
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 rounded-xl h-12 px-4 bg-primary hover:bg-blue-700 text-white text-sm font-bold shadow-md shadow-blue-500/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>Add Bill</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-xl h-12 px-4 bg-transparent border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-[#0e121b] dark:text-white text-sm font-bold transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span>View History</span>
+</button>
+</div>
+</div>
+<!-- Financial Overview Headline -->
+<div class="px-4 pb-3">
+<h3 class="text-[#0e121b] dark:text-white text-lg font-bold leading-tight">Financial Overview</h3>
+</div>
+<!-- Summary Cards -->
+<div class="px-4 pb-8 space-y-3">
+<div class="grid grid-cols-2 gap-3">
+<!-- Total Paid -->
+<div class="bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-success">check_circle</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5 mb-1">
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Paid</span>
+</div>
+<p class="text-2xl font-bold text-[#0e121b] dark:text-white tracking-tight">$1,200.00</p>
+</div>
+<div class="mt-auto">
+<span class="text-[10px] font-medium text-success bg-success/10 px-2 py-1 rounded-md inline-block">All time</span>
+</div>
+</div>
+<!-- Pending Amount -->
+<div class="bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-danger">pending</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5 mb-1">
+<div class="w-2 h-2 rounded-full bg-danger"></div>
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400">Pending</span>
+</div>
+<p class="text-2xl font-bold text-danger tracking-tight">$45.00</p>
+</div>
+<div class="mt-auto">
+<span class="text-[10px] font-medium text-danger bg-danger/10 px-2 py-1 rounded-md inline-block">Due Now</span>
+</div>
+</div>
+</div>
+<!-- Last Payment -->
+<div class="bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 w-10 h-10 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400">Last Payment Date</span>
+<span class="text-sm font-bold text-[#0e121b] dark:text-white">Oct 24, 2023</span>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-medium text-gray-500 block mb-0.5">Via UPI</span>
+<span class="text-sm font-bold text-success">+$60.00</span>
+</div>
+</div>
+</div>
+<!-- Optional Bottom Space for scroll -->
+<div class="h-10"></div>
+</div>
+</body></html>

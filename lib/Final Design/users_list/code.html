@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Users List</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1a2233",
+                        "text-main": "#0e121b",
+                        "text-secondary": "#4d6599",
+                        "success": "#07883d",
+                        "danger": "#dc2626",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen">
+<div class="max-w-md mx-auto min-h-screen flex flex-col relative pb-20">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors">
+<div class="px-5 py-4 flex items-center justify-between">
+<h1 class="text-3xl font-bold text-text-main dark:text-white tracking-tight">Users</h1>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark">
+<span class="material-symbols-outlined" style="font-size: 24px;">add</span>
+</button>
+</div>
+</header>
+<!-- Search Section -->
+<div class="px-5 pt-4 pb-2 sticky top-[73px] z-10 bg-background-light dark:bg-background-dark">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-secondary" style="font-size: 20px;">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3 border-none rounded-xl bg-white dark:bg-card-dark text-text-main dark:text-white shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 placeholder:text-text-secondary focus:ring-2 focus:ring-primary focus:outline-none transition-shadow text-base" placeholder="Search by Name, Mobile, or UID" type="text"/>
+</div>
+</div>
+<!-- Users List -->
+<main class="flex-1 px-5 pt-4 space-y-4">
+<!-- Card 1 -->
+<div class="group relative bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-4 transition-all active:scale-[0.99] cursor-pointer border border-transparent hover:border-primary/20 dark:hover:border-primary/30">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-800 bg-cover bg-center" data-alt="Portrait of a smiling man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC1Na-QBFUjjaipdtgVM7Qm7N_2UVrE16GuD-xzN9fbDnu1J0PMcnf_MnYX9n5qts-Va5ZI-oo8fyvbPU40PHrUuYPjT0Eepd5lqmO1a28eAgtExneAZV47XXqtGVRvTD39VeF_w7OVKUn_qFsml6wf0mF_mKeXrXYqqZwJ_4MUrA-7o6LcUdHXsmLFEvbD6pdkYVIaV1EjNZ11F1u6juET6pa0nSISJUWPiHStEC5XsLJDqJypAqo2J6ehuPqXqKnQuMf005O-IagI');"></div>
+<div class="absolute -bottom-1 -right-1 border-2 border-white dark:border-card-dark rounded-full">
+<span class="block w-3 h-3 bg-success rounded-full"></span>
+</div>
+</div>
+<div>
+<h3 class="text-base font-bold text-text-main dark:text-white leading-tight">John Doe</h3>
+<p class="text-xs font-medium text-text-secondary font-mono mt-0.5">UID: #CUST-001</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">
+                        Active
+                    </span>
+</div>
+<div class="space-y-2 pl-[60px]">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-size: 16px;">call</span>
+<span class="font-medium text-primary hover:underline">+1 555-0199</span>
+</div>
+<div class="flex items-start gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-sm mt-0.5" style="font-size: 16px;">location_on</span>
+<span class="line-clamp-2">123 Main St, New York, NY 10001</span>
+</div>
+</div>
+<div class="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary/40" style="font-size: 20px;">chevron_right</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-4 transition-all active:scale-[0.99] cursor-pointer border border-transparent hover:border-primary/20 dark:hover:border-primary/30">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-800 bg-cover bg-center" data-alt="Portrait of a smiling woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCdcPeljbSS-vg54xiS5Vn8CoCui_vWGun-gih-DaAzA0Xk5dCIdET4e1NI47Uj-Y3ErDZohWzmC6ipjP4mm1BWnVLW1VX5LR7YPDs9JsoPk76Gk3eW_Zu-WGZQI62_rr5JC4tTggXvk_qomtf8aHn46u6sV8hUkcGQ-xKmU3hj278h9FNNiD3ZfcVUcO_iESuWKMLI_gt_vQ-fTIURYPdP2M5PhMPlR5KV4jQ1N2DFEg_oKeDQBvwxKG6LyE9CpYKOtw5HgcoX0Mwg');"></div>
+<div class="absolute -bottom-1 -right-1 border-2 border-white dark:border-card-dark rounded-full">
+<span class="block w-3 h-3 bg-gray-400 rounded-full"></span>
+</div>
+</div>
+<div>
+<h3 class="text-base font-bold text-text-main dark:text-white leading-tight">Jane Smith</h3>
+<p class="text-xs font-medium text-text-secondary font-mono mt-0.5">UID: #CUST-002</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                        Inactive
+                    </span>
+</div>
+<div class="space-y-2 pl-[60px]">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-size: 16px;">call</span>
+<span class="font-medium text-primary hover:underline">+1 555-0144</span>
+</div>
+<div class="flex items-start gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-sm mt-0.5" style="font-size: 16px;">location_on</span>
+<span class="line-clamp-2">456 Elm St, Apt 4B, Springfield</span>
+</div>
+</div>
+<div class="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary/40" style="font-size: 20px;">chevron_right</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-4 transition-all active:scale-[0.99] cursor-pointer border border-transparent hover:border-primary/20 dark:hover:border-primary/30">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="h-12 w-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-primary font-bold text-lg border border-blue-100 dark:border-blue-800">
+                                IC
+                            </div>
+<div class="absolute -bottom-1 -right-1 border-2 border-white dark:border-card-dark rounded-full">
+<span class="block w-3 h-3 bg-success rounded-full"></span>
+</div>
+</div>
+<div>
+<h3 class="text-base font-bold text-text-main dark:text-white leading-tight">Internet Café LLC</h3>
+<p class="text-xs font-medium text-text-secondary font-mono mt-0.5">UID: #BIZ-088</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">
+                        Active
+                    </span>
+</div>
+<div class="space-y-2 pl-[60px]">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-size: 16px;">call</span>
+<span class="font-medium text-primary hover:underline">+1 555-0888</span>
+</div>
+<div class="flex items-start gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-sm mt-0.5" style="font-size: 16px;">location_on</span>
+<span class="line-clamp-2">789 Business Rd, Tech Park, Suite 100</span>
+</div>
+</div>
+<div class="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary/40" style="font-size: 20px;">chevron_right</span>
+</div>
+</div>
+<!-- Card 4 (Suspended) -->
+<div class="group relative bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-4 transition-all active:scale-[0.99] cursor-pointer border border-transparent hover:border-primary/20 dark:hover:border-primary/30 opacity-75">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-800 bg-cover bg-center" data-alt="Portrait of a serious man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBY6o4-MU6889Q5w7kZQG8kWc4NROgwXm5ZhJxuJEqumFSRwmqi0JHzb6n8wzJxKef0ayfD64E1hCoz4diF0d-E2MozogfFLAZCcwZdq_eDhdFeAwRgcSosSxKhDezw1Fm9pJcGrWXZ0Rf2nLHPIEDJI7F0Q53tsHBO46gDMYRx6FCiKtMDuPE9PS1B1XwTVDz_ZO8XXVYTImHJjTiQtcQmHytItbYodDoWB8xiMF_BWszkAohSDN0_A0W27fQjE3ywCLkjxyE6AgDC');"></div>
+<div class="absolute -bottom-1 -right-1 border-2 border-white dark:border-card-dark rounded-full">
+<span class="block w-3 h-3 bg-danger rounded-full"></span>
+</div>
+</div>
+<div>
+<h3 class="text-base font-bold text-text-main dark:text-white leading-tight">Robert Fox</h3>
+<p class="text-xs font-medium text-text-secondary font-mono mt-0.5">UID: #CUST-042</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-danger/10 text-danger border border-danger/20">
+                        Suspended
+                    </span>
+</div>
+<div class="space-y-2 pl-[60px]">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-size: 16px;">call</span>
+<span class="font-medium text-primary hover:underline">+1 555-0922</span>
+</div>
+<div class="flex items-start gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-sm mt-0.5" style="font-size: 16px;">location_on</span>
+<span class="line-clamp-2">2118 Thornridge Cir. Syracuse, Connecticut</span>
+</div>
+</div>
+<div class="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary/40" style="font-size: 20px;">chevron_right</span>
+</div>
+</div>
+<!-- Empty State / Loading more hint -->
+<div class="pt-8 pb-10 flex flex-col items-center justify-center text-center">
+<p class="text-sm text-text-secondary">Showing 4 of 45 users</p>
+<div class="w-1 h-1 bg-text-secondary/30 rounded-full my-2"></div>
+</div>
+</main>
+</div>
+</body></html>

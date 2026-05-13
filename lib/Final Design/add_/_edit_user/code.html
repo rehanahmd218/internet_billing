@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add / Edit User</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased h-screen w-full flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<div class="flex items-center justify-between px-4 py-3 bg-background-light dark:bg-background-dark sticky top-0 z-10 shrink-0 border-b border-transparent dark:border-slate-800">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-10 text-slate-900 dark:text-white">Add Customer</h2>
+</div>
+<!-- Scrollable Form Area -->
+<div class="flex-1 overflow-y-auto w-full px-4 pt-2 pb-8 max-w-lg mx-auto scroll-smooth">
+<!-- Full Name Field -->
+<div class="mb-6">
+<label class="flex flex-col w-full">
+<p class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal pb-2">Full Name</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1A202C] h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-4 text-base font-normal leading-normal transition-all duration-200" placeholder="e.g. John Doe" type="text"/>
+</label>
+</div>
+<!-- UID Field (Read Only) -->
+<div class="mb-6">
+<label class="flex flex-col w-full group">
+<div class="flex items-center gap-2 pb-2">
+<p class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal">Customer UID</p>
+<span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-500 dark:text-slate-400">Auto-generated</span>
+</div>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-500 dark:text-slate-400 focus:outline-0 focus:ring-0 border-transparent bg-slate-100 dark:bg-slate-800/50 h-14 px-4 text-base font-normal leading-normal cursor-not-allowed select-none" readonly="" type="text" value="CUST-8839-XJ"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+</div>
+</label>
+</div>
+<!-- Mobile Number Field -->
+<div class="mb-6">
+<label class="flex flex-col w-full">
+<p class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal pb-2">Mobile Number</p>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1A202C] h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 pl-4 pr-4 text-base font-normal leading-normal transition-all duration-200" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</label>
+</div>
+<!-- Address Field -->
+<div class="mb-2">
+<label class="flex flex-col w-full">
+<p class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal pb-2">Billing Address</p>
+<textarea class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1A202C] min-h-[140px] placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base font-normal leading-normal transition-all duration-200" placeholder="Street, Apt, City, State, Zip Code"></textarea>
+</label>
+</div>
+</div>
+<!-- Sticky Footer Actions -->
+<div class="shrink-0 p-4 bg-background-light dark:bg-background-dark border-t border-transparent dark:border-slate-800">
+<div class="max-w-lg mx-auto flex flex-col gap-3">
+<button class="w-full h-14 rounded-xl bg-primary text-white font-semibold text-lg hover:bg-blue-600 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+<span>Save Customer</span>
+</button>
+<button class="w-full h-12 rounded-xl bg-transparent text-slate-500 dark:text-slate-400 font-medium text-base hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-all duration-200">
+                Cancel
+            </button>
+</div>
+</div>
+</body></html>

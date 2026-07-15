@@ -1,9 +1,5 @@
 # NetManager - Internet Billing App
 
-<p align="center">
-  <img src="flutter_01.png" alt="NetManager App" width="300" />
-</p>
-
 A comprehensive, offline-first Flutter application designed for Internet Service Providers (ISPs) and local network administrators to efficiently manage their users, track internet billing, and maintain records securely.
 
 ## 🌟 Key Features

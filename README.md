@@ -1,4 +1,4 @@
-# NetManager - Internet Billing App
+# EasyNet Billing - Internet Billing App
 
 A comprehensive, offline-first Flutter application designed for Internet Service Providers (ISPs) and local network administrators to efficiently manage their users, track internet billing, and maintain records securely.
 
@@ -68,7 +68,7 @@ lib/
 ```
 
 ## 🛡️ Privacy & Security
-NetManager stores all billing and user data locally on your device. The optional cloud backup feature stores encrypted SQLite databases within a dedicated folder in your personal Google Drive, ensuring that only you have access to your sensitive customer data.
+EasyNet Billing stores all billing and user data locally on your device. The optional cloud backup feature stores encrypted SQLite databases within a dedicated folder in your personal Google Drive, ensuring that only you have access to your sensitive customer data.
 
 ## 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.

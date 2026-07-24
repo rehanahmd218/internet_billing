@@ -4,7 +4,7 @@ A comprehensive, offline-first Flutter application designed for Internet Service
 
 ## 🎥 Video Demo
 
-*(Upload your video demo here)*
+https://github.com/user-attachments/assets/ededc326-3562-4861-9074-5c23f44dd88f
 
 ## 🌟 Key Features
 
